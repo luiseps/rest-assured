@@ -1,6 +1,5 @@
 package iextrader.stepdefinitions;
 
-
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -9,7 +8,8 @@ import io.restassured.RestAssured;
 import net.serenitybdd.rest.SerenityRest;
 
 import static net.serenitybdd.rest.SerenityRest.lastResponse;
-import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class MarketPricesStepDefinitions {
 
@@ -23,7 +23,6 @@ public class MarketPricesStepDefinitions {
 
     }
 
-
     @Given("^(.*) is currently trading at (.*)$")
     public void share_is_currently_trading_at(String symbol, double expectedPrice) {
         RestAssured.given().body(expectedPrice)
@@ -34,13 +33,13 @@ public class MarketPricesStepDefinitions {
 
     @When("^(.*) requests the latest price for (.*)$")
     public void requests_the_latest_price_of(String actor, String symbol) {
-        SerenityRest.when().get("/stock/{symbol}/price",symbol)
+        SerenityRest.when().get("/stock/{symbol}/price", symbol)
                 .then().statusCode(200);
     }
 
     @Then("^s?he should see the price of (.*)$")
     public void should_see_the_price_of(double expectedPrice) {
-        Double price = lastResponse().as(Double.class);
+        Double price = lastResponse().getBody().as(Double.class);
 
         assertThat(price).isEqualTo(expectedPrice);
     }
