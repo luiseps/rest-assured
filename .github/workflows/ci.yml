@@ -35,7 +35,7 @@ jobs:
         uses: SonarSource/sonarcloud-github-action@v1.6
         with:
           args: >
-            -Dsonar.test.exclusions=tests/**
+            -Dsonar.test.exclusions=*.gradle
             -Dsonar.sources=src/
 
         env:
